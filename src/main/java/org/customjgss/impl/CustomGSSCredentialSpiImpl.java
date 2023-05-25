@@ -23,54 +23,56 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package example.provider.impl;
+package org.customjgss.impl;
 
-import example.provider.CustomKerberosJgssProvider;
+import org.customjgss.CustomKerberosJgssProvider;
 import java.security.Provider;
 import org.ietf.jgss.GSSException;
 import org.ietf.jgss.Oid;
+import sun.security.jgss.spi.GSSCredentialSpi;
 import sun.security.jgss.spi.GSSNameSpi;
 
 // implementation classes - a real implementation wouldn't use these
 import sun.security.jgss.krb5.Krb5MechFactory;
 
-class CustomGSSNameSpiImpl implements GSSNameSpi {
+class CustomGSSCredentialSpiImpl implements GSSCredentialSpi {
 
     // Instead of this, a real implementation would be in-place, or delegate to native code
-    private final GSSNameSpi delegate;
+    private final GSSCredentialSpi delegate;
 
-    CustomGSSNameSpiImpl(byte[] name, Oid nameType) throws GSSException {
-        delegate = new Krb5MechFactory(null).getNameElement(name, nameType);
+    CustomGSSCredentialSpiImpl(GSSNameSpi name, int initLifetime, int acceptLifetime, int usage) throws GSSException {
+        delegate = new Krb5MechFactory(null).getCredentialElement(name, initLifetime, acceptLifetime, usage);
     }
 
-    CustomGSSNameSpiImpl(String name, Oid nameType) throws GSSException {
-        delegate = new Krb5MechFactory(null).getNameElement(name, nameType);
-    }
 
     @Override
     public Provider getProvider() {
         return CustomKerberosJgssProvider.INSTANCE;
     }
 
-
     @Override
-    public int hashCode() {
-        return delegate.hashCode();
+    public GSSNameSpi getName() throws GSSException {
+        return delegate.getName();
     }
 
     @Override
-    public boolean equals(GSSNameSpi other) throws GSSException {
-        return delegate.equals(other);
+    public int getInitLifetime() throws GSSException {
+        return delegate.getInitLifetime();
     }
 
     @Override
-    public boolean equals(Object other) {
-        return delegate.equals(other);
+    public int getAcceptLifetime() throws GSSException {
+        return delegate.getAcceptLifetime();
     }
 
     @Override
-    public byte[] export() throws GSSException {
-        return delegate.export();
+    public boolean isInitiatorCredential() throws GSSException {
+        return delegate.isInitiatorCredential();
+    }
+
+    @Override
+    public boolean isAcceptorCredential() throws GSSException {
+        return delegate.isAcceptorCredential();
     }
 
     @Override
@@ -79,13 +81,13 @@ class CustomGSSNameSpiImpl implements GSSNameSpi {
     }
 
     @Override
-    public Oid getStringNameType() {
-        return delegate.getStringNameType();
+    public GSSCredentialSpi impersonate(GSSNameSpi gssNameSpi) throws GSSException {
+        return delegate.impersonate(gssNameSpi);
     }
 
     @Override
-    public boolean isAnonymousName() {
-        return delegate.isAnonymousName();
+    public void dispose() throws GSSException {
+        delegate.dispose();
     }
 
     @Override
