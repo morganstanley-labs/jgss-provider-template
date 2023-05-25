@@ -23,15 +23,13 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package example.provider.impl;
+package org.customjgss.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import org.ietf.jgss.GSSException;
 import sun.security.jgss.GSSHeader;
 import sun.security.util.ObjectIdentifier;
@@ -51,18 +49,8 @@ class IOUtils {
 
     static {
         try {
-            String input = CustomKrb5MechFactory.GSS_KRB5_MECH_OID.toString();
-            String version = System.getProperty("java.version");
-            if (version.startsWith("1.") || version.startsWith("9") || version.startsWith("10")
-                || version.startsWith("11") || version.startsWith("12") || version.startsWith("13")
-                || version.startsWith("14")) {
-                GSS_KRB5_MECH_OBJECT_IDENTIFIER = new ObjectIdentifier(input);
-            } else {
-                // ObjectIdentifier.of(input), from Java 15
-                Method mthd = ObjectIdentifier.class.getMethod("of", String.class);
-                GSS_KRB5_MECH_OBJECT_IDENTIFIER = (ObjectIdentifier) mthd.invoke(null, input);
-            }
-        } catch (IOException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            GSS_KRB5_MECH_OBJECT_IDENTIFIER = ObjectIdentifier.of(CustomKrb5MechFactory.GSS_KRB5_MECH_OID.toString());
+        } catch (IOException e) {
             throw new IllegalStateException("Failed to get OID", e);
         }
     }

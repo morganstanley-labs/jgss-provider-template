@@ -1,0 +1,9 @@
+security.provider.6=CustomJGSS
+security.provider.7=SunJGSS
+security.provider.8=SunSASL
+security.provider.9=XMLDSig
+security.provider.10=SunPCSC
+security.provider.11=JdkLDAP
+security.provider.12=JdkSASL
+security.provider.13=Apple
+security.provider.14=SunPKCS11

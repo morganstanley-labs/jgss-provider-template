@@ -23,9 +23,9 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package example.provider.impl;
+package org.customjgss.impl;
 
-import example.provider.CustomKerberosJgssProvider;
+import org.customjgss.CustomKerberosJgssProvider;
 import java.security.Provider;
 import org.ietf.jgss.GSSCredential;
 import org.ietf.jgss.GSSException;

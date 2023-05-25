@@ -23,11 +23,11 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package example.provider.impl;
+package org.customjgss.impl;
 
 import com.sun.security.jgss.InquireType;
-import example.provider.Configurations;
-import example.provider.CustomKerberosJgssProvider;
+import org.customjgss.Configurations;
+import org.customjgss.CustomKerberosJgssProvider;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.Provider;
@@ -279,11 +279,11 @@ class CustomGSSContextSpiImpl implements GSSContextSpi {
         return delegate.export();
     }
 
-    @Override // Java 8
-    public Object inquireSecContext(InquireType type) throws GSSException {
-        // NOTE: see NOTE on Java 11 variant below
-        return delegate.inquireSecContext(type);
-    }
+//    @Override // Java 8
+//    public Object inquireSecContext(InquireType type) throws GSSException {
+//        // NOTE: see NOTE on Java 11 variant below
+//        return delegate.inquireSecContext(type);
+//    }
 
     // @Override // Java 11
     public Object inquireSecContext(String type) throws GSSException {

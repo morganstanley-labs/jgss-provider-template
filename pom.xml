@@ -1,0 +1,138 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.customjgss</groupId>
+    <artifactId>customjgss</artifactId>
+    <version>1.0</version>
+
+    <name>customjgss</name>
+
+    <description>
+        CustomJSSE delivers a Custom JGSS provider for Zulu 11 and Zulu17
+    </description>
+
+    <licenses>
+        <license>
+            <name>GPLv2 with the Classpath Exception</name>
+            <url>https://openjdk.java.net/legal/gplv2+ce.html</url>
+        </license>
+        <license>
+            <name>BSD-2-Clause</name>
+            <url>https://opensource.org/licenses/BSD-2-Clause</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>alexeybakhtin</id>
+            <name>Alexey Bakhtin</name>
+            <url>https://github.com/alexeybakhtin</url>
+        </developer>
+    </developers>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jdk.version>11</jdk.version>
+        <jdk.api>https://docs.oracle.com/en/java/javase/11/docs/api</jdk.api>
+        <jar.finalName>${project.artifactId}-${project.version}</jar.finalName>
+        <build.output>${project.basedir}/target</build.output>
+    </properties>
+
+    <build>
+        <finalName>${jar.finalName}</finalName>
+        <directory>${build.output}</directory>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.2</version>
+                <inherited>true</inherited>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/main/java${jdk.version}</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                    <encoding>UTF-8</encoding>
+                    <compilerArgs>
+                        <arg>--add-exports</arg>
+                        <arg>java.base/sun.security.util=org.customjgss</arg>
+                        <arg>--add-exports</arg>
+                        <arg>jdk.security.jgss/com.sun.security.jgss=org.customjgss</arg>
+                        <arg>--add-exports</arg>
+                        <arg>java.security.jgss/org.ietf.jgss=org.customjgss</arg>
+                        <arg>--add-exports</arg>
+                        <arg>java.security.jgss/sun.security.jgss=org.customjgss</arg>
+                        <arg>--add-exports</arg>
+                        <arg>java.security.jgss/sun.security.jgss.spi=org.customjgss</arg>
+                        <arg>--add-exports</arg>
+                        <arg>java.security.jgss/sun.security.jgss.krb5=org.customjgss</arg>
+                        <arg>--add-exports</arg>
+                        <arg>java.security.jgss/sun.security.krb5=org.customjgss</arg>
+                        <arg>--add-exports</arg>
+                        <arg>java.security.jgss/sun.security.krb5.internal=org.customjgss</arg>
+                        <arg>--add-exports</arg>
+                        <arg>java.security.jgss/sun.security.krb5.internal.ccache=org.customjgss</arg>
+                        <arg>--add-exports</arg>
+                        <arg>jdk.security.auth/com.sun.security.auth.module=org.customjgss</arg>
+                        <arg>--add-exports</arg>
+                        <arg>java.logging/java.util.logging=org.customjgss</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M3</version>
+                <configuration>
+                    <enableAssertions>false</enableAssertions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

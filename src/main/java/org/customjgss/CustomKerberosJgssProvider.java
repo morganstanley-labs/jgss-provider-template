@@ -23,9 +23,9 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package example.provider;
+package org.customjgss;
 
-import example.provider.impl.CustomKrb5MechFactory;
+import org.customjgss.impl.CustomKrb5MechFactory;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.security.Provider;
